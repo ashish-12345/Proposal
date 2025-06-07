@@ -1,199 +1,143 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Will You Be My Girlfriend? ❤️</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #f8bbd0, #f48fb1);
+  color: white;
+  text-align: center;
+  height: 100vh;
+  overflow: hidden;
+  padding: 20px;
+  position: relative;
+}
 
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #f8bbd0, #f48fb1);
-      color: white;
-      text-align: center;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      overflow: hidden;
-      position: relative;
-    }
+h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px #f48fb1;
+}
 
-    /* Floating hearts animation */
-    .hearts {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 80px;
-      animation: float 6s infinite ease-in-out, glow 1.5s infinite alternate;
-      text-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
-      pointer-events: none;
-      user-select: none;
-      z-index: 10;
-    }
+.subtitle {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-shadow: 0 0 8px #f48fb1;
+}
 
-    @keyframes float {
-      0% { opacity: 0; transform: translate(-50%, 100px) scale(0.8); }
-      50% { opacity: 1; transform: translate(-50%, 0) scale(1); }
-      100% { opacity: 0; transform: translate(-50%, -100px) scale(0.8); }
-    }
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  z-index: 5;
+}
 
-    @keyframes glow {
-      from {
-        text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
-      }
-      to {
-        text-shadow: 0 0 20px #ff1493, 0 0 30px #ff1493;
-      }
-    }
+button {
+  font-size: 2rem;
+  padding: 15px 50px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  color: white;
+  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.6);
+  transition: transform 0.3s ease;
+}
 
-    h1 {
-      font-family: 'Pacifico', cursive;
-      font-size: 3.5rem;
-      margin-bottom: 10px;
-      text-shadow: 0 0 10px #f48fb1;
-    }
+button:hover {
+  transform: scale(1.1);
+}
 
-    .subtitle {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      font-weight: 600;
-      letter-spacing: 1.2px;
-      text-shadow: 0 0 8px #f48fb1;
-    }
+#yesBtn {
+  background-color: #ff4081;
+}
 
-    .buttons {
-      margin-top: 20px;
-      display: flex;
-      gap: 50px;
-      z-index: 5;
-    }
+#noBtn {
+  background-color: #757575;
+}
 
-    button {
-      font-size: 2rem;
-      padding: 15px 50px;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      color: white;
-      box-shadow: 0 5px 15px rgba(255, 105, 180, 0.6);
-      transition: transform 0.3s ease;
-    }
+#sadMessage {
+  font-size: 2rem;
+  margin-top: 30px;
+  display: none;
+  color: #ffcdd2;
+  font-weight: bold;
+  z-index: 5;
+}
 
-    button:hover {
-      transform: scale(1.1);
-    }
+#fireworks {
+  pointer-events: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 9999;
+  display: none;
+}
 
-    #yesBtn {
-      background-color: #ff4081;
-    }
+#slideshow {
+  margin-top: 40px;
+  width: 90vw;
+  max-width: 600px;
+  height: 300px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(255, 105, 180, 0.7);
+  overflow: hidden;
+  position: relative;
+  background: #fff0f7;
+  z-index: 5;
+}
 
-    #noBtn {
-      background-color: #757575;
-    }
+#slideshow img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 1s ease;
+  border-radius: 20px;
+}
 
-    /* Sad message style */
-    #sadMessage {
-      font-size: 2rem;
-      margin-top: 30px;
-      display: none;
-      color: #ffcdd2;
-      font-weight: bold;
-      z-index: 5;
-    }
+#slideshow img.active {
+  opacity: 1;
+  position: relative;
+}
 
-    /* Fireworks canvas */
-    #fireworks {
-      pointer-events: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      z-index: 9999;
-      display: none;
-    }
+.hearts-area {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
 
-    /* Memory slideshow container */
-    #slideshow {
-      margin-top: 40px;
-      width: 90vw;
-      max-width: 600px;
-      height: 300px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.7);
-      overflow: hidden;
-      position: relative;
-      background: #fff0f7;
-      z-index: 5;
-    }
+.heart {
+  position: absolute;
+  color: #ff69b4;
+  font-size: 60px;
+  animation: floatHearts 6s infinite ease-in-out;
+}
 
-    #slideshow img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      transition: opacity 1s ease;
-      border-radius: 20px;
-      user-select: none;
-    }
+@keyframes floatHearts {
+  0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
 
-    #slideshow img.active {
-      opacity: 1;
-      position: relative;
-    }
-
-    /* Animated roses floating */
-    .rose {
-      position: fixed;
-      bottom: -100px;
-      width: 50px;
-      height: 50px;
-      background-image: url('https://i.imgur.com/G4a8zUO.png'); /* rose image */
-      background-size: contain;
-      background-repeat: no-repeat;
-      animation: floatRose 8s linear infinite;
-      opacity: 0.9;
-      pointer-events: none;
-      user-select: none;
-      z-index: 8;
-    }
-
-    @keyframes floatRose {
-      0% {
-        transform: translateY(0) translateX(0) rotate(0deg);
-        opacity: 0.9;
-      }
-      50% {
-        transform: translateY(-300px) translateX(50px) rotate(20deg);
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateY(-600px) translateX(0) rotate(0deg);
-        opacity: 0;
-      }
-    }
   </style>
 </head>
 <body>
-
-  <div class="hearts">💖 💕 💘 💝 💓</div>
-
-  <h1>Will You Be My Girlfriend? 💖</h1>
-  <div class="subtitle">Your smile is the prettiest thing in the world!</div>
-
-  <div class="buttons">
+  <div class="hearts-area" id="hearts"></div>  <h1>Will You Be My Girlfriend? 💖</h1>
+  <div class="subtitle">Your smile is the prettiest thing in the world!</div>  <div class="buttons">
     <button id="yesBtn">Yes 💕</button>
     <button id="noBtn">No 😢</button>
-  </div>
-
-  <div id="sadMessage">Oh no... Maybe next time! 💔</div>
-
-  <canvas id="fireworks"></canvas>
+  </div>  <div id="sadMessage">Oh no... Maybe next time! 💔</div><canvas id="fireworks"></canvas>
 
   <div id="slideshow">
     <img src="a.jpg" class="active" alt="Memory 1" />
@@ -201,65 +145,56 @@
     <img src="c.jpg" alt="Memory 3" />
     <img src="d.jpg" alt="Memory 4" />
     <img src="e.jpg" alt="Memory 5" />
-    <!-- Add more memory images here -->
-  </div>
-
-  <!-- Background music -->
-  <audio id="bgMusic" loop>
-    <source src="take-me-to-your-heart.mp3" type="audio/mpeg" />
-    Your browser does not support the audio element.
-  </audio>
+  </div><audio id="yesMusic" src="yes-song.mp3"></audio> <audio id="noMusic" src="no-song.mp3"></audio>
 
   <script>
-    // Replace this with your deployed Google Apps Script Web App URL
-    const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
-
     const yesBtn = document.getElementById('yesBtn');
     const noBtn = document.getElementById('noBtn');
     const sadMessage = document.getElementById('sadMessage');
-    const fireworksCanvas = document.getElementById('fireworks');
-    const ctx = fireworksCanvas.getContext('2d');
-    const bgMusic = document.getElementById('bgMusic');
+    const yesMusic = document.getElementById('yesMusic');
+    const noMusic = document.getElementById('noMusic');
 
-    fireworksCanvas.width = window.innerWidth;
-    fireworksCanvas.height = window.innerHeight;
+    const slideshowImages = document.querySelectorAll('#slideshow img');
+    let currentSlide = 0;
 
-    // Play music once user clicks any button (required by most browsers)
-    function playMusic() {
-      if (bgMusic.paused) {
-        bgMusic.play().catch(() => {}); // avoid unhandled promise
-      }
+    function showNextSlide() {
+      slideshowImages[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slideshowImages.length;
+      slideshowImages[currentSlide].classList.add('active');
+    }
+    setInterval(showNextSlide, 4000);
+
+    function sendResponse(answer) {
+      fetch('https://formspree.io/f/manjqppd', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message: answer })
+      })
+      .then(() => console.log('Response sent!'))
+      .catch(error => console.error('Error sending response:', error));
     }
 
     yesBtn.addEventListener('click', () => {
-      sendResponse('Yes');
       sadMessage.style.display = 'none';
-      playMusic();
+      yesMusic.play();
       startFireworks();
+      sendResponse('Yes');
     });
 
     noBtn.addEventListener('click', () => {
-      sendResponse('No');
       stopFireworks();
       sadMessage.style.display = 'block';
-      playMusic();
+      noMusic.play();
+      sendResponse('No');
     });
 
-    function sendResponse(answer) {
-      const data = new URLSearchParams();
-      data.append('name', 'Her');  // Customize or get from user input if you want
-      data.append('message', answer);
-
-      fetch(scriptURL, {
-        method: 'POST',
-        body: data,
-      })
-      .then(response => response.json())
-      .then(data => console.log('Response saved:', data))
-      .catch(error => console.error('Error!', error.message));
-    }
-
-    // --- Fireworks animation ---
+    // Fireworks Animation
+    const fireworksCanvas = document.getElementById('fireworks');
+    const ctx = fireworksCanvas.getContext('2d');
+    fireworksCanvas.width = window.innerWidth;
+    fireworksCanvas.height = window.innerHeight;
 
     class Particle {
       constructor(x, y, color) {
@@ -272,13 +207,11 @@
         this.alpha = 1;
         this.decay = Math.random() * 0.01 + 0.005;
       }
-
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
         this.alpha -= this.decay;
       }
-
       draw() {
         ctx.save();
         ctx.globalAlpha = this.alpha;
@@ -310,7 +243,6 @@
 
     function animate() {
       ctx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
-
       particles.forEach((p, i) => {
         p.update();
         if (p.alpha <= 0) {
@@ -319,7 +251,6 @@
           p.draw();
         }
       });
-
       if (particles.length === 0) {
         cancelAnimationFrame(animationId);
         fireworksCanvas.style.display = 'none';
@@ -340,42 +271,20 @@
       fireworksCanvas.style.display = 'none';
     }
 
-    window.addEventListener('resize', () => {
-      fireworksCanvas.width = window.innerWidth;
-      fireworksCanvas.height = window.innerHeight;
-    });
-
-    // --- Slideshow ---
-
-    const slides = document.querySelectorAll('#slideshow img');
-    let currentSlide = 0;
-
-    function showNextSlide() {
-      slides[currentSlide].classList.remove('active');
-      currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.add('active');
-    }
-
-    setInterval(showNextSlide, 4000);
-
-    // --- Animated roses ---
-
-    function createRose() {
-      const rose = document.createElement('div');
-      rose.className = 'rose';
-      rose.style.left = Math.random() * window.innerWidth + 'px';
-      rose.style.animationDuration = 6 + Math.random() * 4 + 's';
-      rose.style.opacity = 0.8 + Math.random() * 0.2;
-      document.body.appendChild(rose);
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerText = '💖';
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.fontSize = (Math.random() * 30 + 40) + 'px';
+      heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      document.getElementById('hearts').appendChild(heart);
 
       setTimeout(() => {
-        rose.remove();
-      }, 10000);
+        heart.remove();
+      }, 7000);
     }
-
-    // Create roses every 700ms
-    setInterval(createRose, 700);
-
-  </script>
-</body>
+    setInterval(createHeart, 500);
+  </script></body>
 </html>
