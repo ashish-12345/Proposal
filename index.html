@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Will You Be Mine? ❤️</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap');
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #8e2de2, #4a00e0);
+      color: white;
+      text-align: center;
+      height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    /* Animated Hearts Background */
+    .hearts {
+      font-size: 90px;
+      animation: float 6s infinite ease-in-out, glow 1.5s infinite alternate;
+      margin: 20px 0;
+      text-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+      position: relative;
+      z-index: 5;
+    }
+    @keyframes float {
+      0% { opacity: 0; transform: translateY(100px); }
+      50% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-100px); }
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4; }
+      to { text-shadow: 0 0 20px #ff1493, 0 0 30px #ff1493; }
+    }
+
+    h1, h2 {
+      margin: 10px;
+      text-shadow: 0 0 5px black;
+    }
+
+    .button {
+      background-color: #ff4081;
+      border: none;
+      padding: 20px 50px;
+      font-size: 32px;
+      border-radius: 60px;
+      color: white;
+      cursor: pointer;
+      margin: 20px 10px;
+      box-shadow: 0 8px 30px rgba(255, 64, 129, 0.6);
+      transition: transform 0.3s ease;
+      position: relative;
+      z-index: 10;
+    }
+    .button:hover {
+      transform: scale(1.1);
+    }
+
+    #loveLetterPopup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.95);
+      color: black;
+      padding: 30px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 520px;
+      box-shadow: 0 0 20px pink;
+      display: none;
+      z-index: 1000;
+    }
+
+    #countdown {
+      font-size: 28px;
+      margin: 30px 0;
+      text-shadow: 0 0 5px black;
+      position: relative;
+      z-index: 5;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.95);
+      color: black;
+      padding: 20px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 520px;
+      margin: 20px auto;
+      position: relative;
+      z-index: 5;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      resize: vertical;
+    }
+
+    audio {
+      display: none;
+    }
+
+    /* Animated Falling Roses */
+    .rose {
+      position: fixed;
+      top: -50px;
+      width: 40px;
+      height: 40px;
+      background: url('https://i.imgur.com/7H6slwH.png') no-repeat center center/contain;
+      pointer-events: none;
+      animation-name: fall, sway;
+      animation-timing-function: linear, ease-in-out;
+      animation-iteration-count: infinite, infinite;
+    }
+    @keyframes fall {
+      0% { top: -50px; opacity: 1; }
+      100% { top: 110vh; opacity: 0; }
+    }
+    @keyframes sway {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(30px); }
+    }
+
+    /* Fireworks container */
+    #fireworks {
+      pointer-events: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 9999;
+      display: none;
+      background: transparent;
+    }
+
+    /* Sad message */
+    #sadMessage {
+      display: none;
+      margin-top: 20px;
+      font-size: 28px;
+      font-weight: bold;
+      color: #ff4c4c;
+      text-shadow: 0 0 10px black;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* Yes/No Buttons container */
+    #proposalButtons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      position: relative;
+      z-index: 10;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="hearts">💖 💕 💘 💝 💓</div>
+
+  <h1>From Best Friends to Something More...</h1>
+  <h2>💌 Will You Be Mine? 💌</h2>
+
+  <button class="button" onclick="showLoveLetter()">Read My Heart 💞</button>
+  <div id="countdown"></div>
+
+  <form id="replyForm" onsubmit="return submitForm()">
+    <h2>💬 Reply Back To Me</h2>
+    <input type="text" name="name" placeholder="Your Name" required />
+    <textarea name="message" rows="4" placeholder="Your Message..." required></textarea>
+    <button type="submit" class="button">Send 💌</button>
+    <p id="responseMessage" style="color:green;"></p>
+  </form>
+
+  <div id="loveLetterPopup">
+    <p style="font-size: 20px; line-height: 1.4;">
+      From being best friends to maybe something more…<br />
+      I want to call you mine, today and always.<br />
+      <strong>Will you be my girlfriend?</strong> 💖
+    </p>
+
+    <div id="proposalButtons">
+      <button class="button" style="background:#28a745;" onclick="proposalAnswer(true)">Yes 💖</button>
+      <button class="button" style="background:#dc3545;" onclick="proposalAnswer(false)">No 💔</button>
+    </div>
+
+    <button class="button" style="margin-top:20px; background:#777;" onclick="hideLoveLetter()">Close</button>
+  </div>
+
+  <div id="sadMessage">😢 I understand. I’ll always cherish our friendship.</div>
+
+  <audio id="bgMusic" autoplay loop>
+    <source src="take-me-to-your-heart.mp3" type="audio/mpeg" />
+  </audio>
+
+  <div id="fireworks"></div>
+
+  <script>
+    // Show love letter popup
+    function showLoveLetter() {
+      document.getElementById("bgMusic").play();
+      document.getElementById("loveLetterPopup").style.display = 'block';
+      document.getElementById("sadMessage").style.display = 'none';
+    }
+    function hideLoveLetter() {
+      document.getElementById("loveLetterPopup").style.display = 'none';
+      document.getElementById("sadMessage").style.display = 'none';
+    }
+
+    // Countdown timer to 1-month anniversary (July 7, 2025)
+    const targetDate = new Date("July 7, 2025 00:00:00").getTime();
+    const countdownEl = document.getElementById("countdown");
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      if (distance < 0) {
+        countdownEl.innerHTML = "🎉 Happy 1 Month Anniversary! 🎉";
+        return;
+      }
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hrs = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const secs = Math.floor((distance % (1000 * 60)) / 1000);
+      countdownEl.innerHTML = `⏳ Our 1 Month Anniversary In: ${days}d ${hrs}h ${mins}m ${secs}s`;
+    }, 1000);
+
+    // Submit reply to Google Sheet
+    function submitForm() {
+      const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL';
+      const form = document.forms['replyForm'];
+      const data = new FormData(form);
+
+      fetch(scriptURL, { method: 'POST', body: data })
+        .then(() => {
+          document.getElementById("responseMessage").innerText = "Message sent successfully!";
+          form.reset();
+        })
+        .catch(() => {
+          document.getElementById("responseMessage").innerText = "Failed to send. Try again!";
+        });
+
+      return false;
+    }
+
+    // Proposal answer handler
+    function proposalAnswer(answer) {
+      const popup = document.getElementById("loveLetterPopup");
+      const sadMsg = document.getElementById("sadMessage");
+      const fireworks = document.getElementById("fireworks");
+
+      if (answer) {
+        popup.style.display = 'none';
+        sadMsg.style.display = 'none';
+        startFireworks();
+      } else {
+        popup.style.display = 'none';
+        sadMsg.style.display = 'block';
+        stopFireworks();
+      }
+    }
+
+    // Fireworks implementation
+    // We'll use simple canvas fireworks for demonstration
+    const fireworksContainer = document.getElementById("fireworks");
+
+    function startFireworks() {
+      fireworksContainer.style.display = 'block';
+      createCanvasFireworks();
+    }
+
+    function stopFireworks() {
+      fireworksContainer.style.display = 'none';
+      clearInterval(fireworkInterval);
+      if (canvas) {
+        canvas.remove();
+        canvas = null;
+      }
+    }
+
+    let canvas, ctx, cw, ch;
+    let particles = [];
+    let fireworkInterval;
+
+    function createCanvasFireworks() {
+      if (canvas) return; // already created
+      canvas = document.createElement('canvas');
+      fireworksContainer.appendChild(canvas);
+      ctx = canvas.getContext('2d');
+      cw = canvas.width = window.innerWidth;
+      ch = canvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        cw = canvas.width = window.innerWidth;
+        ch = canvas.height = window.innerHeight;
+      });
+
+      fireworkInterval = setInterval(() => {
+        createFirework();
+      }, 400);
+
+      requestAnimationFrame(update);
+    }
+
+    function createFirework() {
+      const x = Math.random() * cw * 0.8 + cw * 0.1;
+      const y = Math.random() * ch * 0.5 + ch * 0.1;
+      const colors = ['#ff4c4c', '#ff69b4', '#ff1493', '#ff85a2', '#ff4081'];
+      for (let i = 0; i < 30; i++) {
+        particles.push(new Particle(x, y, colors[Math.floor(Math.random() * colors.length)]));
+      }
+    }
+
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.radius = Math.random() * 3 + 2;
+        this.speedX = (Math.random() - 0.5) * 6;
+        this.speedY = (Math.random() - 0.5) * 6;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.015 + 0.005;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.alpha -= this.decay;
+      }
+      draw() {
+        if (this.alpha <= 0) return;
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.fillStyle = this.color;
+        ctx.shadowColor = this.color;
+        ctx.shadowBlur = 8;
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    function update() {
+      ctx.clearRect(0, 0, cw, ch);
+      particles = particles.filter(p => p.alpha > 0);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(update);
+    }
+
+    // Animated falling roses generation
+    function createRose() {
+      const rose = document.createElement('div');
+      rose.className = 'rose';
+      rose.style.left = Math.random() * window.innerWidth + 'px';
+      rose.style.animationDuration = (6 + Math.random() * 4) + 's';
+      rose.style.animationDelay = Math.random() * 5 + 's';
+      document.body.appendChild(rose);
+
+      setTimeout(() => {
+        rose.remove();
+      }, 10000);
+    }
+
+    // Create roses continuously
+    setInterval(createRose, 700);
+
+  </script>
+
+</body>
+</html>
