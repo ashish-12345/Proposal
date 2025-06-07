@@ -5,26 +5,31 @@
   <title>Will You Be My Girlfriend? ❤️</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #f8bbd0, #f48fb1);
+      font-family: 'Segoe UI', sans-serif;
       color: white;
+      text-align: center;
       overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .container {
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      height: 100%;
-      text-align: center;
+      justify-content: center;
+      max-width: 100%;
       padding: 20px;
-      z-index: 5;
-      position: relative;
     }
 
     h1 {
@@ -42,10 +47,11 @@
     }
 
     .buttons {
+      margin-top: 20px;
       display: flex;
       justify-content: center;
       gap: 50px;
-      margin-bottom: 20px;
+      z-index: 5;
     }
 
     button {
@@ -73,13 +79,26 @@
 
     #sadMessage {
       font-size: 2rem;
-      margin-top: 20px;
+      margin-top: 30px;
       display: none;
       color: #ffcdd2;
       font-weight: bold;
+      z-index: 5;
+    }
+
+    #fireworks {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 9999;
+      display: none;
     }
 
     #slideshow {
+      margin-top: 40px;
       width: 90vw;
       max-width: 600px;
       height: 300px;
@@ -88,7 +107,7 @@
       overflow: hidden;
       position: relative;
       background: #fff0f7;
-      margin-top: 30px;
+      z-index: 5;
     }
 
     #slideshow img {
@@ -108,19 +127,12 @@
       position: relative;
     }
 
-    #fireworks {
-      pointer-events: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 9999;
-      display: none;
-    }
-
     .emoji-shower {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       pointer-events: none;
       z-index: 10000;
     }
@@ -128,13 +140,22 @@
     .emoji {
       position: absolute;
       font-size: 40px;
-      animation: fall 4s linear forwards;
+      animation: burst 2s ease-out forwards;
     }
 
-    @keyframes fall {
-      0% { transform: translateY(-10%); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateY(110vh); opacity: 0; }
+    @keyframes burst {
+      0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0.5);
+      }
+      50% {
+        opacity: 1;
+        transform: translate(var(--x), var(--y)) scale(1.2);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(var(--x), var(--y)) scale(0.7);
+      }
     }
   </style>
 </head>
@@ -157,9 +178,9 @@
   </div>
 
   <canvas id="fireworks"></canvas>
-  <div class="emoji-shower" id="emojiShower"></div>
   <audio id="yesMusic" src="yes.mp3"></audio>
   <audio id="noMusic" src="no.mp3"></audio>
+  <div class="emoji-shower" id="emojiShower"></div>
 
   <script>
     const yesBtn = document.getElementById('yesBtn');
@@ -186,14 +207,29 @@
     }
 
     function showEmojiShower(emoji) {
+      const burstCenterX = window.innerWidth / 2;
+      const burstCenterY = window.innerHeight / 2;
+
       for (let i = 0; i < 50; i++) {
         const span = document.createElement('span');
         span.className = 'emoji';
         span.innerText = emoji;
-        span.style.left = Math.random() * 100 + 'vw';
+
+        const angle = Math.random() * 2 * Math.PI;
+        const radius = Math.random() * 300 + 50;
+
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+
+        span.style.left = `${burstCenterX}px`;
+        span.style.top = `${burstCenterY}px`;
+        span.style.setProperty('--x', `${x}px`);
+        span.style.setProperty('--y', `${y}px`);
         span.style.fontSize = (Math.random() * 20 + 30) + 'px';
+
         emojiShower.appendChild(span);
-        setTimeout(() => span.remove(), 4000);
+
+        setTimeout(() => span.remove(), 2000);
       }
     }
 
@@ -217,7 +253,6 @@
       sendResponse('No');
     });
 
-    // Fireworks
     const fireworksCanvas = document.getElementById('fireworks');
     const ctx = fireworksCanvas.getContext('2d');
     fireworksCanvas.width = window.innerWidth;
