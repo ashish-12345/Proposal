@@ -1,334 +1,159 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Will You Be My Girlfriend? ❤️</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+<script>
+  const yesBtn = document.getElementById('yesBtn');
+  const noBtn = document.getElementById('noBtn');
+  const sadMessage = document.getElementById('sadMessage');
+  const yesMusic = document.getElementById('yesMusic');
+  const noMusic = document.getElementById('noMusic');
+  const emojiShower = document.getElementById('emojiShower');
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: linear-gradient(135deg, #f8bbd0, #f48fb1);
-      font-family: 'Segoe UI', sans-serif;
-      color: white;
-      text-align: center;
-      overflow: hidden;
-    }
+  const slideshowImages = document.querySelectorAll('#slideshow img');
+  let currentSlide = 0;
+  setInterval(() => {
+    slideshowImages[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slideshowImages.length;
+    slideshowImages[currentSlide].classList.add('active');
+  }, 4000);
 
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      max-width: 100%;
-      padding: 20px;
-    }
-
-    h1 {
-      font-family: 'Pacifico', cursive;
-      font-size: 3.5rem;
-      margin-bottom: 10px;
-      text-shadow: 0 0 10px #f48fb1;
-    }
-
-    .subtitle {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      font-weight: 600;
-      text-shadow: 0 0 8px #f48fb1;
-    }
-
-    .buttons {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      gap: 50px;
-      z-index: 5;
-    }
-
-    button {
-      font-size: 2rem;
-      padding: 15px 50px;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      color: white;
-      box-shadow: 0 5px 15px rgba(255, 105, 180, 0.6);
-      transition: transform 0.3s ease;
-    }
-
-    button:hover {
-      transform: scale(1.1);
-    }
-
-    #yesBtn {
-      background-color: #ff4081;
-    }
-
-    #noBtn {
-      background-color: #757575;
-    }
-
-    #sadMessage {
-      font-size: 2rem;
-      margin-top: 30px;
-      display: none;
-      color: #ffcdd2;
-      font-weight: bold;
-      z-index: 5;
-    }
-
-    #fireworks {
-      pointer-events: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 9999;
-      display: none;
-    }
-
-    #slideshow {
-      margin-top: 40px;
-      width: 90vw;
-      max-width: 600px;
-      height: 300px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.7);
-      overflow: hidden;
-      position: relative;
-      background: #fff0f7;
-      z-index: 5;
-    }
-
-    #slideshow img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      transition: opacity 1s ease;
-      border-radius: 20px;
-    }
-
-    #slideshow img.active {
-      opacity: 1;
-      position: relative;
-    }
-
-    .emoji-shower {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 10000;
-    }
-
-    .emoji {
-      position: absolute;
-      font-size: 40px;
-      animation: burst 2s ease-out forwards;
-    }
-
-    @keyframes burst {
-      0% {
-        opacity: 0;
-        transform: translate(0, 0) scale(0.5);
-      }
-      50% {
-        opacity: 1;
-        transform: translate(var(--x), var(--y)) scale(1.2);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(var(--x), var(--y)) scale(0.7);
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Will You Be My Girlfriend? 💖</h1>
-    <div class="subtitle">❣️I will make you happy always❣️</div>
-    <div class="buttons">
-      <button id="yesBtn">Yes 💕</button>
-      <button id="noBtn">No 😢</button>
-    </div>
-    <div id="sadMessage">💔Oh No 💔</div>
-    <div id="slideshow">
-      <img src="a.jpg" class="active" alt="Memory 1" />
-      <img src="b.jpg" alt="Memory 2" />
-      <img src="c.jpg" alt="Memory 3" />
-      <img src="d.jpg" alt="Memory 4" />
-      <img src="e.jpg" alt="Memory 5" />
-    </div>
-  </div>
-
-  <canvas id="fireworks"></canvas>
-  <audio id="yesMusic" src="yes.mp3"></audio>
-  <audio id="noMusic" src="no.mp3"></audio>
-  <div class="emoji-shower" id="emojiShower"></div>
-
-  <script>
-    const yesBtn = document.getElementById('yesBtn');
-    const noBtn = document.getElementById('noBtn');
-    const sadMessage = document.getElementById('sadMessage');
-    const yesMusic = document.getElementById('yesMusic');
-    const noMusic = document.getElementById('noMusic');
-    const emojiShower = document.getElementById('emojiShower');
-
-    const slideshowImages = document.querySelectorAll('#slideshow img');
-    let currentSlide = 0;
-    setInterval(() => {
-      slideshowImages[currentSlide].classList.remove('active');
-      currentSlide = (currentSlide + 1) % slideshowImages.length;
-      slideshowImages[currentSlide].classList.add('active');
-    }, 4000);
-
-    function sendResponse(answer) {
-      fetch('https://formspree.io/f/manjqppd', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: answer })
-      });
-    }
-
-    function showEmojiShower(emoji) {
-      const burstCenterX = window.innerWidth / 2;
-      const burstCenterY = window.innerHeight / 2;
-
-      for (let i = 0; i < 50; i++) {
-        const span = document.createElement('span');
-        span.className = 'emoji';
-        span.innerText = emoji;
-
-        const angle = Math.random() * 2 * Math.PI;
-        const radius = Math.random() * 300 + 50;
-
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
-
-        span.style.left = `${burstCenterX}px`;
-        span.style.top = `${burstCenterY}px`;
-        span.style.setProperty('--x', `${x}px`);
-        span.style.setProperty('--y', `${y}px`);
-        span.style.fontSize = (Math.random() * 20 + 30) + 'px';
-
-        emojiShower.appendChild(span);
-
-        setTimeout(() => span.remove(), 2000);
-      }
-    }
-
-    yesBtn.addEventListener('click', () => {
-      sadMessage.style.display = 'none';
-      noMusic.pause(); noMusic.currentTime = 0;
-      yesMusic.play();
-      startFireworks();
-      showEmojiShower('💐');
-      showEmojiShower('💖');
-      sendResponse('Yes');
+  function sendResponse(answer) {
+    fetch('https://formspree.io/f/manjqppd', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: answer })
     });
+  }
 
-    noBtn.addEventListener('click', () => {
-      stopFireworks();
-      sadMessage.style.display = 'block';
-      yesMusic.pause(); yesMusic.currentTime = 0;
-      noMusic.play();
-      showEmojiShower('😢');
-      showEmojiShower('😭');
-      sendResponse('No');
+  function showEmojiShower(emoji) {
+    const burstCenterX = window.innerWidth / 2;
+    const burstCenterY = window.innerHeight / 2;
+
+    for (let i = 0; i < 30; i++) {
+      const span = document.createElement('span');
+      span.className = 'emoji';
+      span.innerText = emoji;
+
+      const angle = Math.random() * 2 * Math.PI;
+      const radius = Math.random() * 300 + 50;
+
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+
+      span.style.left = `${burstCenterX}px`;
+      span.style.top = `${burstCenterY}px`;
+      span.style.setProperty('--x', `${x}px`);
+      span.style.setProperty('--y', `${y}px`);
+      span.style.fontSize = (Math.random() * 20 + 30) + 'px';
+
+      emojiShower.appendChild(span);
+
+      setTimeout(() => span.remove(), 2000);
+    }
+  }
+
+  let emojiInterval = null;
+
+  function startEmojiBurstDuringMusic(music, emoji1, emoji2) {
+    emojiInterval = setInterval(() => {
+      showEmojiShower(emoji1);
+      showEmojiShower(emoji2);
+    }, 1500);
+
+    music.onended = () => {
+      clearInterval(emojiInterval);
+    };
+  }
+
+  yesBtn.addEventListener('click', () => {
+    sadMessage.style.display = 'none';
+    noMusic.pause(); noMusic.currentTime = 0;
+    yesMusic.play();
+    startFireworks();
+    startEmojiBurstDuringMusic(yesMusic, '💐', '💖');
+    sendResponse('Yes');
+  });
+
+  noBtn.addEventListener('click', () => {
+    stopFireworks();
+    sadMessage.style.display = 'block';
+    yesMusic.pause(); yesMusic.currentTime = 0;
+    noMusic.play();
+    startEmojiBurstDuringMusic(noMusic, '😢', '😭');
+    sendResponse('No');
+  });
+
+  const fireworksCanvas = document.getElementById('fireworks');
+  const ctx = fireworksCanvas.getContext('2d');
+  fireworksCanvas.width = window.innerWidth;
+  fireworksCanvas.height = window.innerHeight;
+
+  class Particle {
+    constructor(x, y, color) {
+      this.x = x;
+      this.y = y;
+      this.color = color;
+      this.radius = Math.random() * 3 + 2;
+      this.speedX = (Math.random() - 0.5) * 6;
+      this.speedY = (Math.random() - 0.5) * 6;
+      this.alpha = 1;
+      this.decay = Math.random() * 0.01 + 0.005;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.alpha -= this.decay;
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  let particles = [];
+  let animationId;
+
+  function randomColor() {
+    const colors = ['#ff4081', '#f50057', '#ff80ab', '#f48fb1', '#e91e63'];
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  function createFireworks() {
+    for (let i = 0; i < 50; i++) {
+      particles.push(new Particle(
+        Math.random() * fireworksCanvas.width,
+        Math.random() * fireworksCanvas.height * 0.6 + fireworksCanvas.height * 0.2,
+        randomColor()
+      ));
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
+    particles.forEach((p, i) => {
+      p.update();
+      if (p.alpha <= 0) particles.splice(i, 1);
+      else p.draw();
     });
-
-    const fireworksCanvas = document.getElementById('fireworks');
-    const ctx = fireworksCanvas.getContext('2d');
-    fireworksCanvas.width = window.innerWidth;
-    fireworksCanvas.height = window.innerHeight;
-
-    class Particle {
-      constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.radius = Math.random() * 3 + 2;
-        this.speedX = (Math.random() - 0.5) * 6;
-        this.speedY = (Math.random() - 0.5) * 6;
-        this.alpha = 1;
-        this.decay = Math.random() * 0.01 + 0.005;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        this.alpha -= this.decay;
-      }
-      draw() {
-        ctx.save();
-        ctx.globalAlpha = this.alpha;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-        ctx.restore();
-      }
-    }
-
-    let particles = [];
-    let animationId;
-
-    function randomColor() {
-      const colors = ['#ff4081', '#f50057', '#ff80ab', '#f48fb1', '#e91e63'];
-      return colors[Math.floor(Math.random() * colors.length)];
-    }
-
-    function createFireworks() {
-      for (let i = 0; i < 50; i++) {
-        particles.push(new Particle(
-          Math.random() * fireworksCanvas.width,
-          Math.random() * fireworksCanvas.height * 0.6 + fireworksCanvas.height * 0.2,
-          randomColor()
-        ));
-      }
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
-      particles.forEach((p, i) => {
-        p.update();
-        if (p.alpha <= 0) particles.splice(i, 1);
-        else p.draw();
-      });
-      if (particles.length === 0) {
-        cancelAnimationFrame(animationId);
-        fireworksCanvas.style.display = 'none';
-      } else {
-        animationId = requestAnimationFrame(animate);
-      }
-    }
-
-    function startFireworks() {
-      fireworksCanvas.style.display = 'block';
-      createFireworks();
-      animate();
-    }
-
-    function stopFireworks() {
-      particles = [];
+    if (particles.length === 0) {
       cancelAnimationFrame(animationId);
       fireworksCanvas.style.display = 'none';
+    } else {
+      animationId = requestAnimationFrame(animate);
     }
-  </script>
-</body>
-</html>
+  }
+
+  function startFireworks() {
+    fireworksCanvas.style.display = 'block';
+    createFireworks();
+    animate();
+  }
+
+  function stopFireworks() {
+    particles = [];
+    cancelAnimationFrame(animationId);
+    fireworksCanvas.style.display = 'none';
+  }
+</script>
