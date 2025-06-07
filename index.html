@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Will You Be My Girlfriend? ❤️</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -16,138 +14,122 @@
       overflow: hidden;
       padding: 20px;
       position: relative;
-    }
+    }h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 3.5rem;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px #f48fb1;
+}
 
-    h1 {
-      font-family: 'Pacifico', cursive;
-      font-size: 3.5rem;
-      margin-bottom: 10px;
-      text-shadow: 0 0 10px #f48fb1;
-    }
+.subtitle {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-shadow: 0 0 8px #f48fb1;
+}
 
-    .subtitle {
-      font-size: 1.8rem;
-      margin-bottom: 20px;
-      font-weight: 600;
-      text-shadow: 0 0 8px #f48fb1;
-    }
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  z-index: 5;
+}
 
-    .buttons {
-      margin-top: 20px;
-      display: flex;
-      justify-content: center;
-      gap: 50px;
-      z-index: 5;
-    }
+button {
+  font-size: 2rem;
+  padding: 15px 50px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  color: white;
+  box-shadow: 0 5px 15px rgba(255, 105, 180, 0.6);
+  transition: transform 0.3s ease;
+}
 
-    button {
-      font-size: 2rem;
-      padding: 15px 50px;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      color: white;
-      box-shadow: 0 5px 15px rgba(255, 105, 180, 0.6);
-      transition: transform 0.3s ease;
-    }
+button:hover {
+  transform: scale(1.1);
+}
 
-    button:hover {
-      transform: scale(1.1);
-    }
+#yesBtn {
+  background-color: #ff4081;
+}
 
-    #yesBtn {
-      background-color: #ff4081;
-    }
+#noBtn {
+  background-color: #757575;
+}
 
-    #noBtn {
-      background-color: #757575;
-    }
+#sadMessage {
+  font-size: 2rem;
+  margin-top: 30px;
+  display: none;
+  color: #ffcdd2;
+  font-weight: bold;
+  z-index: 5;
+}
 
-    #sadMessage {
-      font-size: 2rem;
-      margin-top: 30px;
-      display: none;
-      color: #ffcdd2;
-      font-weight: bold;
-      z-index: 5;
-    }
+#fireworks {
+  pointer-events: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 9999;
+  display: none;
+}
 
-    #fireworks {
-      pointer-events: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 9999;
-      display: none;
-    }
+#slideshow {
+  margin-top: 40px;
+  width: 90vw;
+  max-width: 600px;
+  height: 300px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(255, 105, 180, 0.7);
+  overflow: hidden;
+  position: relative;
+  background: #fff0f7;
+  z-index: 5;
+}
 
-    #slideshow {
-      margin-top: 40px;
-      width: 90vw;
-      max-width: 600px;
-      height: 300px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(255, 105, 180, 0.7);
-      overflow: hidden;
-      position: relative;
-      background: #fff0f7;
-      z-index: 5;
-    }
+#slideshow img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 1s ease;
+  border-radius: 20px;
+}
 
-    #slideshow img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      position: absolute;
-      top: 0;
-      left: 0;
-      opacity: 0;
-      transition: opacity 1s ease;
-      border-radius: 20px;
-    }
+#slideshow img.active {
+  opacity: 1;
+  position: relative;
+}
 
-    #slideshow img.active {
-      opacity: 1;
-      position: relative;
-    }
+.emoji-shower {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 10000;
+}
 
-    .hearts-area {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
-    }
+.emoji {
+  position: absolute;
+  font-size: 40px;
+  animation: fall 4s linear forwards;
+}
 
-    .heart {
-      position: absolute;
-      color: #ff69b4;
-      font-size: 60px;
-      animation: floatHearts 6s infinite ease-in-out;
-    }
+@keyframes fall {
+  0% { transform: translateY(-10%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(110vh); opacity: 0; }
+}
 
-    @keyframes floatHearts {
-      0% {
-        transform: translateY(100vh) scale(0.5);
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-10vh) scale(1);
-        opacity: 0;
-      }
-    }
   </style>
 </head>
 <body>
-  <div class="hearts-area" id="hearts"></div>
   <h1>Will You Be My Girlfriend? 💖</h1>
   <div class="subtitle">❣️I will make you happy always❣️</div>
   <div class="buttons">
@@ -156,7 +138,6 @@
   </div>
   <div id="sadMessage">💔Oh No 💔</div>
   <canvas id="fireworks"></canvas>
-
   <div id="slideshow">
     <img src="a.jpg" class="active" alt="Memory 1" />
     <img src="b.jpg" alt="Memory 2" />
@@ -164,58 +145,65 @@
     <img src="d.jpg" alt="Memory 4" />
     <img src="e.jpg" alt="Memory 5" />
   </div>
-
   <audio id="yesMusic" src="yes.mp3"></audio>
   <audio id="noMusic" src="no.mp3"></audio>
-
-  <script>
+  <div class="emoji-shower" id="emojiShower"></div>  <script>
     const yesBtn = document.getElementById('yesBtn');
     const noBtn = document.getElementById('noBtn');
     const sadMessage = document.getElementById('sadMessage');
     const yesMusic = document.getElementById('yesMusic');
     const noMusic = document.getElementById('noMusic');
+    const emojiShower = document.getElementById('emojiShower');
 
     const slideshowImages = document.querySelectorAll('#slideshow img');
     let currentSlide = 0;
-
-    function showNextSlide() {
+    setInterval(() => {
       slideshowImages[currentSlide].classList.remove('active');
       currentSlide = (currentSlide + 1) % slideshowImages.length;
       slideshowImages[currentSlide].classList.add('active');
-    }
-    setInterval(showNextSlide, 4000);
+    }, 4000);
 
     function sendResponse(answer) {
       fetch('https://formspree.io/f/manjqppd', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: answer })
-      })
-      .then(() => console.log('Response sent!'))
-      .catch(error => console.error('Error sending response:', error));
+      });
+    }
+
+    function showEmojiShower(emoji) {
+      for (let i = 0; i < 50; i++) {
+        const span = document.createElement('span');
+        span.className = 'emoji';
+        span.innerText = emoji;
+        span.style.left = Math.random() * 100 + 'vw';
+        span.style.fontSize = (Math.random() * 20 + 30) + 'px';
+        emojiShower.appendChild(span);
+        setTimeout(() => span.remove(), 4000);
+      }
     }
 
     yesBtn.addEventListener('click', () => {
-      noMusic.pause();
-      noMusic.currentTime = 0;
-
-      yesMusic.play();
       sadMessage.style.display = 'none';
+      noMusic.pause(); noMusic.currentTime = 0;
+      yesMusic.play();
       startFireworks();
+      showEmojiShower('💐');
+      showEmojiShower('💖');
       sendResponse('Yes');
     });
 
     noBtn.addEventListener('click', () => {
-      yesMusic.pause();
-      yesMusic.currentTime = 0;
-
-      noMusic.play();
-      sadMessage.style.display = 'block';
       stopFireworks();
+      sadMessage.style.display = 'block';
+      yesMusic.pause(); yesMusic.currentTime = 0;
+      noMusic.play();
+      showEmojiShower('😢');
+      showEmojiShower('😭');
       sendResponse('No');
     });
 
-    // Fireworks animation
+    // Fireworks logic (can be skipped if not needed)
     const fireworksCanvas = document.getElementById('fireworks');
     const ctx = fireworksCanvas.getContext('2d');
     fireworksCanvas.width = window.innerWidth;
@@ -232,13 +220,11 @@
         this.alpha = 1;
         this.decay = Math.random() * 0.01 + 0.005;
       }
-
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
         this.alpha -= this.decay;
       }
-
       draw() {
         ctx.save();
         ctx.globalAlpha = this.alpha;
@@ -272,11 +258,8 @@
       ctx.clearRect(0, 0, fireworksCanvas.width, fireworksCanvas.height);
       particles.forEach((p, i) => {
         p.update();
-        if (p.alpha <= 0) {
-          particles.splice(i, 1);
-        } else {
-          p.draw();
-        }
+        if (p.alpha <= 0) particles.splice(i, 1);
+        else p.draw();
       });
       if (particles.length === 0) {
         cancelAnimationFrame(animationId);
@@ -297,19 +280,5 @@
       cancelAnimationFrame(animationId);
       fireworksCanvas.style.display = 'none';
     }
-
-    // Floating hearts
-    function createHeart() {
-      const heart = document.createElement('div');
-      heart.className = 'heart';
-      heart.innerText = '💖';
-      heart.style.left = Math.random() * window.innerWidth + 'px';
-      heart.style.fontSize = (Math.random() * 30 + 40) + 'px';
-      heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-      document.getElementById('hearts').appendChild(heart);
-      setTimeout(() => heart.remove(), 7000);
-    }
-    setInterval(createHeart, 500);
-  </script>
-</body>
+  </script></body>
 </html>
